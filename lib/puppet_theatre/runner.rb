@@ -3,7 +3,7 @@ require 'parallel'
 module PuppetTheatre
   class Runner
     def initialize(&block)
-      @config = Config.new.tap {|o| o.instance_eval(&block) }
+      @config = Config.new.tap { |o| o.instance_eval(&block) }
     end
 
     def config(s)
@@ -69,14 +69,14 @@ module PuppetTheatre
     end
 
     def call
-      results = Hash.new {|h, k| h[k] = {} }
+      results = Hash.new { |h, k| h[k] = {} }
 
       Parallel.map(config(:hosts).sort, in_threads: config(:threads)) do |host|
         config(:checkers).each_pair do |name, checker|
           result =
             begin
               checker.call(self, host)
-            rescue
+            rescue StandardError
               ExceptionalResult.new($!)
             end
 
@@ -87,19 +87,19 @@ module PuppetTheatre
       config(:reporters).each do |_, reporter|
         begin
           reporter.call(self, results)
-        rescue
+        rescue StandardError
           warn $!
         end
       end
     end
 
-    alias_method :run, :call
+    alias run call
 
     def notify(msg)
       config(:notifiers).each do |_, notifier|
         begin
           notifier.call(msg)
-        rescue
+        rescue StandardError
           warn $!
         end
       end

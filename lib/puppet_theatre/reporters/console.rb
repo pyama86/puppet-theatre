@@ -1,7 +1,7 @@
 module PuppetTheatre
   module Reporters
     class Console < Base
-      def call(env, results)
+      def call(_env, results)
         results.each do |host, checks|
           puts ">> #{host}"
           checks.each do |name, check|

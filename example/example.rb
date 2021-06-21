@@ -3,7 +3,6 @@ require 'bundler/setup'
 require 'puppet_theatre'
 
 module PuppetTheatre::Checkers
-
   # exmaple of custom checker
   class Serverspec < find_class(:rspec)
     def rspec_args(host)
@@ -14,7 +13,7 @@ module PuppetTheatre::Checkers
 
     def environment(host)
       super.merge(
-        'TARGET_HOST' => host,
+        'TARGET_HOST' => host
       )
     end
 

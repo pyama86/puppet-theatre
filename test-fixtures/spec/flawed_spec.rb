@@ -1,5 +1,4 @@
 describe 'Something flawed' do
-
   it 'passes' do
     expect(true).to be
   end
@@ -12,5 +11,4 @@ describe 'Something flawed' do
     pending
     expect(false).to be
   end
-
 end

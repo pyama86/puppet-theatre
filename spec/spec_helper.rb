@@ -1,11 +1,10 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'puppet_theatre'
 require 'timecop'
 require 'pathname'
 require 'tmpdir'
 
 shared_context with_tmpdir: true do
-
   attr_reader :tmpdir
 
   around do |example|
@@ -14,5 +13,4 @@ shared_context with_tmpdir: true do
       example.run
     end
   end
-
 end

@@ -1,5 +1,4 @@
 describe PuppetTheatre::Runner do
-
   let(:stub_hosts) do
     class_double('PuppetTheatre::Hosts::Stub').as_stubbed_const
   end
@@ -36,7 +35,7 @@ describe PuppetTheatre::Runner do
 
       expect(stub_checker).to receive(:new).twice do
         double.tap do |stub|
-          expect(stub).to receive(:call).twice do |env, host|
+          expect(stub).to receive(:call).twice do |env, _host|
             expect(env).to be subject
             {}
           end
@@ -49,7 +48,7 @@ describe PuppetTheatre::Runner do
             expect(env).to be subject
             expect(results).to match(
               'www1.example.com' => matching('Stub1' => be, 'Stub2' => be),
-              'www2.example.com' => matching('Stub1' => be, 'Stub2' => be),
+              'www2.example.com' => matching('Stub1' => be, 'Stub2' => be)
             )
           end
         end

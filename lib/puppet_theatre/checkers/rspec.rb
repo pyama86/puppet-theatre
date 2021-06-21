@@ -5,7 +5,6 @@ require 'shellwords'
 module PuppetTheatre
   module Checkers
     class Rspec < Base
-
       class Result
         def initialize(result)
           @result = JSON.parse(result)
@@ -24,15 +23,11 @@ module PuppetTheatre
         end
 
         def details
-          @result['examples'].map {|example|
-            if example['status'] == 'failed'
-              "%s:%s %s" % [
-                example['file_path'],
-                example['line_number'],
-                example['full_description'],
-              ]
-            end
-          }.compact
+          @result['examples'].map do |example|
+            next unless example['status'] == 'failed'
+
+            format('%s:%s %s', example['file_path'], example['line_number'], example['full_description'])
+          end.compact
         end
 
         private
@@ -46,7 +41,7 @@ module PuppetTheatre
         end
       end
 
-      def call(env, host)
+      def call(_env, host)
         Dir.chdir(workdir(host)) do
           Bundler.with_clean_env do
             stdout, stderr, status = Open3.capture3(environment(host), command(host))
@@ -57,15 +52,15 @@ module PuppetTheatre
 
       private
 
-      def workdir(host)
+      def workdir(_host)
         config[:workdir] || '.'
       end
 
-      def environment(host)
+      def environment(_host)
         config[:env] || {}
       end
 
-      def rspec_args(host)
+      def rspec_args(_host)
         config[:args] || {}
       end
 
@@ -80,9 +75,9 @@ module PuppetTheatre
 
         [
           %{tmp=$(mktemp)},
-          %{#{cmd.shelljoin} --format json --out "$tmp" >/dev/null 2>&1},
-          %{cat "$tmp"},
-        ].join(?;)
+          %(#{cmd.shelljoin} --format json --out "$tmp" >/dev/null 2>&1),
+          %(cat "$tmp")
+        ].join(';')
       end
     end
   end

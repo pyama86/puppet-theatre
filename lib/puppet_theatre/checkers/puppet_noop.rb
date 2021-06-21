@@ -5,7 +5,6 @@ require 'yaml'
 module PuppetTheatre
   module Checkers
     class PuppetNoop < Base
-
       class Result
         def initialize(result)
           @result = self.class.load_plain_yaml(result)
@@ -26,9 +25,9 @@ module PuppetTheatre
         end
 
         def details
-          @result['logs'].map {|log|
-            "[%s] %s: %s" % [log['level'], log['source'], log['message']]
-          }
+          @result['logs'].map do |log|
+            format('[%s] %s: %s', log['level'], log['source'], log['message'])
+          end
         end
 
         private
@@ -38,7 +37,7 @@ module PuppetTheatre
         end
 
         def out_of_sync_count
-          @result['metrics']['resources']['values'].find {|r| r[0] == 'out_of_sync' }[2]
+          @result['metrics']['resources']['values'].find { |r| r[0] == 'out_of_sync' }[2]
         end
 
         class TagStrip < Psych::Visitors::DepthFirst
@@ -52,21 +51,20 @@ module PuppetTheatre
         end
       end
 
-      def call(env, host)
+      def call(_env, host)
         cmd = [
           %{tmp=$(mktemp)},
-          %{sudo puppet agent -t --noop --lastrunreport "$tmp" >/dev/null 2>&1},
-          %{cat "$tmp"},
-        ].join(?;)
+          %(sudo puppet agent -t --noop --lastrunreport "$tmp" >/dev/null 2>&1),
+          %(cat "$tmp")
+        ].join(';')
 
         result = nil
-        on(host) do |host|
+        on(host) do |_host|
           result = Result.new(capture(cmd))
         end
 
         result
       end
-
     end
   end
 end

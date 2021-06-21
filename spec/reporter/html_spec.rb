@@ -1,7 +1,6 @@
 require 'puppet_theatre/reporters/html'
 
 describe PuppetTheatre::Reporters::Html, with_tmpdir: true do
-
   subject { described_class.new(path: tmpdir, uri: 'https://example.net/path/') }
 
   let(:runner) { instance_double('PuppetTheatre::Runner') }
@@ -21,7 +20,7 @@ describe PuppetTheatre::Reporters::Html, with_tmpdir: true do
           expect(stub).to receive(:summary).at_least(:once).with(no_args).and_return('OK')
           expect(stub).to receive(:details).at_least(:once).with(no_args).and_return([])
         end
-      },
+      }
     }
 
     now = Time.new(2010, 2, 3, 4, 5, 6)
@@ -38,5 +37,4 @@ describe PuppetTheatre::Reporters::Html, with_tmpdir: true do
     content = File.read(file)
     expect(content).to include('Something failed').and include("Test1 failed\nTest2 failed")
   end
-
 end

@@ -1,7 +1,6 @@
 require 'puppet_theatre/notifiers/console'
 
 describe PuppetTheatre::Notifiers::Console do
-
   subject { described_class.new({}) }
 
   describe '#call' do
@@ -9,5 +8,4 @@ describe PuppetTheatre::Notifiers::Console do
       expect { subject.call('TESTTEST') }.to output("TESTTEST\n").to_stdout
     end
   end
-
 end

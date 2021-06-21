@@ -7,16 +7,16 @@ module PuppetTheatre
       def call(env, results)
         summary = {}
 
-        results.each do |host, checks|
+        results.each do |_host, checks|
           checks.each do |name, check|
             summary[name] ||= 0
             summary[name] += 1 if check.alert?
           end
         end
 
-        message = summary.map {|name, failures|
-          "%s: %s" % [name, failures > 0 ? NG + "(#{failures})" : OK]
-        }.join('; ')
+        message = summary.map do |name, failures|
+          format('%s: %s', name, failures > 0 ? NG + "(#{failures})" : OK)
+        end.join('; ')
 
         env.notify(message)
       end

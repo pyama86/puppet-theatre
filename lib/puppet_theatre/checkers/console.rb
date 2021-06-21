@@ -1,10 +1,10 @@
 module PuppetTheatre
   module Checkers
     class Console < Base
-      def call(env, host)
+      def call(_env, host)
         puts "Checking #{host}..."
 
-        return nil
+        nil
       end
     end
   end

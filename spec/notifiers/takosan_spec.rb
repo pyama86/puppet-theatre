@@ -1,13 +1,12 @@
 require 'puppet_theatre/notifiers/takosan'
 
 describe PuppetTheatre::Notifiers::Takosan do
-
   subject { described_class.new(config) }
 
   describe '#call' do
-    let(:config) {
-      {url: 'https://takosan.example.com:4649', channel: '#example', icon: ':simple_smile:', name: 'ikachan'}
-    }
+    let(:config) do
+      { url: 'https://takosan.example.com:4649', channel: '#example', icon: ':simple_smile:', name: 'ikachan' }
+    end
 
     it 'sends message to takosan' do
       takosan = class_double('Takosan').as_stubbed_const
@@ -21,5 +20,4 @@ describe PuppetTheatre::Notifiers::Takosan do
       subject.call('TESTTEST')
     end
   end
-
 end

@@ -8,5 +8,6 @@
 /spec/reports/
 /tmp/
 .ruby-version
-
+./test-fixtures
 /example/Gemfile.lock
+vendor

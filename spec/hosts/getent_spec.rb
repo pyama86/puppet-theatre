@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe PuppetTheatre::Hosts.find_class(:getent) do
-
   it 'includes Enumerable module' do
     expect(described_class).to include Enumerable
   end
@@ -9,7 +8,7 @@ describe PuppetTheatre::Hosts.find_class(:getent) do
   shared_context 'use stub getent' do
     around do |example|
       env = {
-        'PATH' => ["#{Dir.pwd}/test-fixtures/bin", '/bin', '/usr/bin'].join(?:),
+        'PATH' => ["#{Dir.pwd}/test-fixtures/bin", '/bin', '/usr/bin'].join(':')
       }
 
       hosts.each_with_index do |host, i|
@@ -39,7 +38,7 @@ describe PuppetTheatre::Hosts.find_class(:getent) do
       let(:pattern) { // }
 
       it 'yields all the available hosts' do
-        expect {|b| subject.each(&b) }.to yield_successive_args(*hosts)
+        expect { |b| subject.each(&b) }.to yield_successive_args(*hosts)
       end
     end
 
@@ -47,7 +46,7 @@ describe PuppetTheatre::Hosts.find_class(:getent) do
       let(:pattern) { /\Aapi\d+\./ }
 
       it 'yields only matching hosts' do
-        expect {|b| subject.each(&b) }.to yield_successive_args('api001.example.com')
+        expect { |b| subject.each(&b) }.to yield_successive_args('api001.example.com')
       end
     end
 
@@ -56,7 +55,7 @@ describe PuppetTheatre::Hosts.find_class(:getent) do
       let(:hosts) { ['www001.example.com www.001.example.net'] }
 
       it 'yields each host' do
-        expect {|b| subject.each(&b) }.to yield_successive_args(*hosts.first.split)
+        expect { |b| subject.each(&b) }.to yield_successive_args(*hosts.first.split)
       end
     end
   end

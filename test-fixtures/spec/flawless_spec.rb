@@ -1,5 +1,4 @@
 describe 'Something flawless' do
-
   it 'passes' do
     expect(true).to be
   end
@@ -7,5 +6,4 @@ describe 'Something flawless' do
   it 'passes too' do
     expect(true).to be
   end
-
 end
