@@ -10,11 +10,7 @@ module PuppetTheatre
 
         slack = ::Slack::Incoming::Webhooks.new config[:url], channel: config[:channel],
                                                             username: config[:user_name]
-        attachments = {
-          color: '#36a64f',
-          title: 'Puppet Teatre'
-        }
-        slack.post msg, attachments: [attachments]
+        slack.post msg
       end
     end
   end
