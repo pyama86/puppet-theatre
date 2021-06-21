@@ -8,7 +8,7 @@ module PuppetTheatre
           raise "#{t} is required for slack" unless config[t.to_sym]
         end
 
-        slack = Slack::Incoming::Webhooks.new config[:url], channel: config[:channel],
+        slack = ::Slack::Incoming::Webhooks.new config[:url], channel: config[:channel],
                                                             username: config[:user_name]
         attachments = {
           color: '#36a64f',
