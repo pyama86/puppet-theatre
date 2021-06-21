@@ -1,4 +1,4 @@
-require 'slack-incoming-webhooks'
+require 'slack/incoming/webhooks'
 
 module PuppetTheatre
   module Notifiers
